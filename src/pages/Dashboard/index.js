@@ -1,19 +1,63 @@
-import { Switch, Route } from 'react-router-dom'
-import SignUpPage from "../../components/SignUpPage";
-import UsersList from '../../components/UsersList';
+
+import { useState, useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
+import { withFirebase } from "../../firebase"
 import * as ROUTES from '../../constants/routes';
 
-import Firebase, { FirebaseContext } from '../../firebase';
+function Dashboard(props){
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
 
-export function Dashboard(){
+  useEffect(() => {
+    props.firebase.users().on('value', snapshot => {
+      const usersObject = snapshot.val();
+  
+      const usersList = Object.keys(usersObject).map(key => ({
+        ...usersObject[key],
+        uid: key,
+      }));
+  
+      setLoading(false);
+      setUsers(usersList)
+    })
+  }, [])
 
+  const onDelete = (uid) => {
+    props.firebase.db.ref(`users/${uid}`).remove()
+  }
 
   return (
-    <Switch>
-      <FirebaseContext.Provider value={new Firebase()}>
-        <Route exact path="/" component={UsersList}/>
-        <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
-      </FirebaseContext.Provider>
-    </Switch>
+    <div>
+        <h2>Users</h2>
+        {loading && <div>Loading ...</div>}
+        <ul>
+          {users.map(user => (
+            <li key={user.uid}>
+              <span>
+                <strong>ID:</strong> {user.uid}
+              </span>
+              <span>
+                <strong>E-Mail:</strong> {user.email}
+              </span>
+              <span>
+                <strong>Username:</strong> {user.username}
+              </span>
+              <span>
+                <Link
+                  to={{
+                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                    state: { user },
+                  }}
+                >
+                  Details
+                </Link>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
   )
 }
+
+export default withFirebase(Dashboard)
