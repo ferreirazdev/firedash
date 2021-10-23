@@ -25,14 +25,11 @@ const AdminPage = () => (
 
 const AdminPageAuth = ({ authUser }) => (
   <div>
-    <h1>Admin</h1>
-    <p>The Admin Page is accessible by every signed in admin user.</p>
-
     {authUser.roles.includes(ROLES.ADMIN) && (
       <Switch>
-      <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
-      <Route exact path={ROUTES.ADMIN} component={UserList} />
-    </Switch>
+        <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+        <Route exact path={ROUTES.ADMIN} component={UserList} />
+      </Switch>
     )}
     
   </div>
@@ -41,7 +38,7 @@ const AdminPageAuth = ({ authUser }) => (
 const AdminPageNone = () => (
   <div>
     <h1>Admin</h1>
-    <p>The Admin Page is accessible by every signed in admin user.</p>
+    <p>Essa página é acessível apenas para o Admin</p>
 
     <div>Volte para a área autorizada</div>
     <li>

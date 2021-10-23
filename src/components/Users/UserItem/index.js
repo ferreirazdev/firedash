@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { withFirebase } from "../../../firebase"
+import {
+  Container
+} from './styles'
 
 function UserItem(props){
   const [loading, setLoading] = useState(true);
@@ -52,42 +55,47 @@ function UserItem(props){
   }
 
   return (
-    <div>
-        <h2>Users</h2>
-        {loading && <div>Loading ...</div>}
-        <ul>
-          {user && (
-            <div>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <form onSubmit={onSubmit}>
-                <div>
-                  <strong>Nome:</strong> {user.username}
-                  <input
-                    name="username"
-                    value={username}
-                    onChange={onChange}
-                    type="text"
-                    placeholder={user.username}
-                  />
-                </div>
-                <div>
-                  <strong>E-Mail:</strong> {user.email}
-                  <input 
-                    name="email"
-                    value={email}
-                    onChange={onChange}
-                    type="text"
-                    placeholder={user.email}
-                  />
-                </div>
-                <button type="submit">Atualizar Dados</button>
-              </form>
-            </div>
-          )}
-        </ul>
-      </div>
+    <Container>
+      <div className="dataWrapper">
+        <h2>Atualize os dados do usuário</h2>
+          {loading && <div>Loading ...</div>}
+          <div>
+            {user && (
+              <div>
+                <form onSubmit={onSubmit}>
+                  <div className="infoData">
+                    <div>
+                      <span>Nome:</span>
+                      <h1>{user.username}</h1>
+                    </div>
+                    <input
+                      name="username"
+                      value={username}
+                      onChange={onChange}
+                      type="text"
+                      placeholder={user.username}
+                    />
+                  </div>
+                  <div className="infoData">
+                    <div>
+                      <span>E-Mail:</span>
+                      <h1>{user.email}</h1>
+                    </div>
+                    <input 
+                      name="email"
+                      value={email}
+                      onChange={onChange}
+                      type="text"
+                      placeholder={user.email}
+                    />
+                  </div>
+                  <button type="submit">Atualizar Dados</button>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      </Container>
   )
 }
 

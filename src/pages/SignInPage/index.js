@@ -4,6 +4,10 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../firebase';
 import * as ROUTES from '../../constants/routes';
 
+import {
+  Container
+} from './styles'
+
 function SignInPage(props){
   const formInititalValues = {
     email: '',
@@ -35,28 +39,31 @@ function SignInPage(props){
   const isInvalid = password === '' || email === '';
   
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+    <Container>
+      <div className="formWrapper">
+        <form onSubmit={onSubmit}>
+          <h1>Login</h1>
+          <input
+            name="email"
+            value={email}
+            onChange={onChange}
+            type="text"
+            placeholder="Digite seu e-mail"
+          />
+          <input
+            name="password"
+            value={password}
+            onChange={onChange}
+            type="password"
+            placeholder="Digite sua senha"
+          />
+          <button disabled={isInvalid} type="submit">
+            Entrar
+          </button>
 
-      </form>
-    </div>
+        </form>
+      </div>
+    </Container>
   )
 }
 

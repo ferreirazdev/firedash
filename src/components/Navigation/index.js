@@ -29,9 +29,9 @@ const NavigationAuth = ({ authUser }) => (
         <div className="logoImg">
           <img src={FireSvg} alt="logo"/>
         </div> 
-        <Link to={ROUTES.HOME}>Home</Link>
+        <Link to={ROUTES.HOME}>HOME</Link>
         {authUser.roles.includes(ROLES.ADMIN) && (
-          <Link to={ROUTES.ADMIN}>Admin</Link>
+          <Link to={ROUTES.ADMIN}>ADMIN</Link>
         )}
       </div>
       <div className="buttonWrapper">
@@ -48,7 +48,7 @@ const NavigationNonAuth = () => (
         <div className="logoImg">
           <img src={FireSvg} alt="logo"/>
         </div> 
-        <Link to={ROUTES.HOME}>Home</Link>
+        <Link to={ROUTES.HOME}>HOME</Link>
       </div>
       <div className="signInWrapper">
         <Link to={ROUTES.SIGN_IN}>Sign In</Link>

@@ -35,36 +35,36 @@ function UsersList(props){
   return (
     <Container>
       <UsersWrapper>
-        <div>
-          <h2>Users</h2>
-          <Link to='/signup'>Cadastrar</Link>
+        <div className="navUsers">
+          <h2>Usuários</h2>
+          <Link to='/signup'>Cadastrar Usuário</Link>
         </div>
         {loading && <div>Loading ...</div>}
         <div>
           <div className="categoriesWrapper">
             <div className="categories">
-              <h1>id</h1>
+              <h1 className="titleCategories">ID</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">
-                    <h1>{user.uid}</h1>
-                  </div>
-                  <div>
                     <Link
                       to={{
                         pathname: `${ROUTES.ADMIN}/${user.uid}`,
                         state: { user },
                       }}
-                    >
-                      Details
+                      >
+                      Detalhes
                     </Link>
+                    <h1>{user.uid}</h1>
+                  </div>
+                  <div>
                   </div>
                 </div>
               ))}
             </div>
             
             <div className="categories">
-              <h1>username</h1>
+              <h1 className="titleCategories">NOME</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">
@@ -75,7 +75,7 @@ function UsersList(props){
             </div>
 
             <div className="categories">
-              <h1>email</h1>
+              <h1 className="titleCategories">EMAIL</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">

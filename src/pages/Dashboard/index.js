@@ -32,12 +32,12 @@ function Dashboard(props){
   return (
     <Container>
       <UsersWrapper>
-        <h2>Users</h2>
+        <h2>Usuários</h2>
         {loading && <div>Loading ...</div>}
         <div>
           <div className="categoriesWrapper">
             <div className="categories">
-              <h1>id</h1>
+              <h1 className="titleCategories">ID</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">
@@ -48,7 +48,7 @@ function Dashboard(props){
             </div>
             
             <div className="categories">
-              <h1>username</h1>
+              <h1 className="titleCategories">NOME</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">
@@ -59,7 +59,7 @@ function Dashboard(props){
             </div>
 
             <div className="categories">
-              <h1>email</h1>
+              <h1 className="titleCategories">E-MAIL</h1>
               {users.map(user => (
                 <div className="infoWrapper" key={user.uid}>
                   <div className="info">
