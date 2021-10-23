@@ -1,75 +1,56 @@
-import React, { Component } from 'react';
 
-import { withFirebase } from '../../../firebase';
+import { useState, useEffect } from 'react';
 
-class UserItem extends Component {
-  constructor(props) {
-    super(props);
+import { withFirebase } from "../../../firebase"
 
-    this.state = {
-      loading: false,
-      user: null,
-      ...props.location.state,
-    };
+function UserItem(props){
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    props.firebase.user(props.match.params.id).on('value', snapshot => {
+      const snapUser = snapshot.val()
+      
+      setUser(snapUser)
+      setLoading(false)
+    })
+  }, [])
+
+  const onDelete = (uid) => {
+    props.firebase.db.ref(`users/${uid}`).remove()
   }
 
-  componentDidMount() {
-    if (this.state.user) {
-      return;
-    }
+  console.log(user)
 
-    this.setState({ loading: true });
-
-    this.props.firebase
-      .user(this.props.match.params.id)
-      .on('value', snapshot => {
-        this.setState({
-          user: snapshot.val(),
-          loading: false,
-        });
-      });
-  }
-
-  componentWillUnmount() {
-    this.props.firebase.user(this.props.match.params.id).off();
-  }
-
-  onSendPasswordResetEmail = () => {
-    this.props.firebase.doPasswordReset(this.state.user.email);
-  };
-
-  render() {
-    const { user, loading } = this.state;
-
-    return (
-      <div>
-        <h2>User ({this.props.match.params.id})</h2>
+  return (
+    <div>
+        <h2>Users</h2>
         {loading && <div>Loading ...</div>}
-
-        {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>E-Mail:</strong> {user.email}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span>
-            <span>
-              <button
-                type="button"
-                onClick={this.onSendPasswordResetEmail}
-              >
-                Send Password Reset
-              </button>
-            </span>
-          </div>
-        )}
+        <ul>
+          {user && (
+            <div>
+              <span>
+                <strong>ID:</strong> {user.uid}
+              </span>
+              <span>
+                <strong>E-Mail:</strong> {user.email}
+              </span>
+              <span>
+                <strong>Username:</strong> {user.username}
+              </span>
+              <span>
+                <button
+                  type="button"
+                  
+                >
+                  Send Password Reset
+                </button>
+              </span>
+            </div>
+          )}
+        </ul>
       </div>
-    );
-  }
+  )
 }
 
-export default withFirebase(UserItem);
+export default withFirebase(UserItem)
