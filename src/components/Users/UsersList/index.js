@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from "../../../firebase"
 import * as ROUTES from '../../../constants/routes';
 
+import {
+  Container,
+  UsersWrapper
+} from './styles'
+
 function UsersList(props){
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -28,36 +33,64 @@ function UsersList(props){
   }
 
   return (
-    <div>
-        <h2>Users</h2>
+    <Container>
+      <UsersWrapper>
+        <div>
+          <h2>Users</h2>
+          <Link to='/signup'>Cadastrar</Link>
+        </div>
         {loading && <div>Loading ...</div>}
-        <ul>
-          {users.map(user => (
-            <li key={user.uid}>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <span>
-                <strong>E-Mail:</strong> {user.email}
-              </span>
-              <span>
-                <strong>Username:</strong> {user.username}
-              </span>
-              <span>
-                <Link
-                  to={{
-                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                    state: { user },
-                  }}
-                >
-                  Details
-                </Link>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div>
+          <div className="categoriesWrapper">
+            <div className="categories">
+              <h1>id</h1>
+              {users.map(user => (
+                <div className="infoWrapper" key={user.uid}>
+                  <div className="info">
+                    <h1>{user.uid}</h1>
+                  </div>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                        state: { user },
+                      }}
+                    >
+                      Details
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="categories">
+              <h1>username</h1>
+              {users.map(user => (
+                <div className="infoWrapper" key={user.uid}>
+                  <div className="info">
+                    <h1>{user.username}</h1>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="categories">
+              <h1>email</h1>
+              {users.map(user => (
+                <div className="infoWrapper" key={user.uid}>
+                  <div className="info">
+                    <h1>{user.email}</h1>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </UsersWrapper>
+    </Container>
   )
 }
 
 export default withFirebase(UsersList)
+

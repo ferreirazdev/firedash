@@ -32,7 +32,8 @@ export const UsersWrapper = styled.div`
       }
 
       .infoWrapper {
-
+        display: flex;
+        
       }
 
       .info {

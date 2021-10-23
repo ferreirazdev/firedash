@@ -40,7 +40,6 @@ function UserItem(props){
     }).catch(error => {
       console.log(error)
     })
-
     e.preventDefault();
   }
 

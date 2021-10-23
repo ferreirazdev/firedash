@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FireSvg from './assets/fire.png'
 
 import SignOutButton from '../SignOut';
 
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+
+import { Container } from './styles'
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -20,27 +23,38 @@ const Navigation = () => (
 );
 
 const NavigationAuth = ({ authUser }) => (
-  <ul>
-    {authUser.roles.includes(ROLES.ADMIN) && (
-      <li>
-        <Link to={ROUTES.ADMIN}>Admin</Link>
-      </li>
-    )}
-    <li>
-      <SignOutButton />
-    </li>
-  </ul>
+  <Container>
+    <div className="navWrapper">
+      <div className="routesWrapper">
+        <div className="logoImg">
+          <img src={FireSvg} alt="logo"/>
+        </div> 
+        <Link to={ROUTES.HOME}>Home</Link>
+        {authUser.roles.includes(ROLES.ADMIN) && (
+          <Link to={ROUTES.ADMIN}>Admin</Link>
+        )}
+      </div>
+      <div className="buttonWrapper">
+        <SignOutButton />
+      </div>
+    </div>
+  </Container>
 );
 
 const NavigationNonAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </li>
-  </ul>
+  <Container>
+    <div className="navWrapper">
+      <div className="routesWrapper">
+        <div className="logoImg">
+          <img src={FireSvg} alt="logo"/>
+        </div> 
+        <Link to={ROUTES.HOME}>Home</Link>
+      </div>
+      <div className="signInWrapper">
+        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+      </div>
+    </div>
+  </Container>
 );
 
 export default Navigation;

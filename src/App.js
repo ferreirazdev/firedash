@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import styled from 'styled-components'
+import GlobalStyles from './styles/GlobalStyles'
+
 import * as ROUTES from './constants/routes';
 import { withAuthentication } from './contexts';
 import Dashboard from "./pages/Dashboard";
@@ -9,6 +12,7 @@ import AdminPage from './pages/Admin'
 import Navigation from './components/Navigation';
 
 const App = () => (
+  <>
   <Router>
     <div>
       <Navigation />
@@ -19,6 +23,8 @@ const App = () => (
       <Route exact path={ROUTES.ADMIN_DETAILS} component={AdminPage} />
     </div>
   </Router>
+  <GlobalStyles />
+  </>
 );
 
 export default withAuthentication(App);
