@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
-import { withFirebase } from "../../firebase"
-import * as ROUTES from '../../constants/routes';
+import { withFirebase } from "../../../firebase"
+import * as ROUTES from '../../../constants/routes';
 
-function Dashboard(props){
+function UsersList(props){
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
 
@@ -44,6 +44,14 @@ function Dashboard(props){
                 <strong>Username:</strong> {user.username}
               </span>
               <span>
+                <Link
+                  to={{
+                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                    state: { user },
+                  }}
+                >
+                  Details
+                </Link>
               </span>
             </li>
           ))}
@@ -52,4 +60,4 @@ function Dashboard(props){
   )
 }
 
-export default withFirebase(Dashboard)
+export default withFirebase(UsersList)

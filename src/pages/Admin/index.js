@@ -1,75 +1,53 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { compose } from 'recompose';
 
-import { withFirebase } from '../../firebase';
+import { withAuthorization } from '../../contexts';
+import UserList from '../../components/Users/UsersList';
+import UserItem from '../../components/Users/UserItem';
+import * as ROLES from '../../constants/roles';
+import * as ROUTES from '../../constants/routes';
 
-class AdminPage extends Component {
-  constructor(props) {
-    super(props);
+import { Link } from 'react-router-dom';
+import { AuthUserContext } from '../../contexts';
 
-    this.state = {
-      loading: false,
-      user: null,
-      ...props.location.state,
-    };
-  }
-
-  componentDidMount() {
-    if (this.state.user) {
-      return;
+const AdminPage = () => (
+  <AuthUserContext.Consumer>
+    {authUser =>
+      authUser ? (
+        <AdminPageAuth authUser={authUser} />
+      ) : (
+        <AdminPageNone />
+      )
     }
+  </AuthUserContext.Consumer>
+);
 
-    this.setState({ loading: true });
+const AdminPageAuth = ({ authUser }) => (
+  <div>
+    <h1>Admin</h1>
+    <p>The Admin Page is accessible by every signed in admin user.</p>
 
-    this.props.firebase
-      .user(this.props.match.params.id)
-      .on('value', snapshot => {
-        this.setState({
-          user: snapshot.val(),
-          loading: false,
-        });
-      });
-  }
+    {authUser.roles.includes(ROLES.ADMIN) && (
+      <Switch>
+      <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+      <Route exact path={ROUTES.ADMIN} component={UserList} />
+    </Switch>
+    )}
+    
+  </div>
+);
 
-  componentWillUnmount() {
-    this.props.firebase.user(this.props.match.params.id).off();
-  }
+const AdminPageNone = () => (
+  <div>
+    <h1>Admin</h1>
+    <p>The Admin Page is accessible by every signed in admin user.</p>
 
-  onSendPasswordResetEmail = () => {
-    this.props.firebase.doPasswordReset(this.state.user.email);
-  };
+    <div>Volte para a área autorizada</div>
+    <li>
+      <Link to={ROUTES.HOME}>Home</Link>
+    </li>
+  </div>
+);
 
-  render() {
-    const { user, loading } = this.state;
-
-    return (
-      <div>
-        <h2>User ({this.props.match.params.id})</h2>
-        {loading && <div>Loading ...</div>}
-
-        {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>E-Mail:</strong> {user.email}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span>
-            <span>
-              <button
-                type="button"
-                onClick={this.onSendPasswordResetEmail}
-              >
-                Send Password Reset
-              </button>
-            </span>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-export default withFirebase(AdminPage);
+export default AdminPage;
