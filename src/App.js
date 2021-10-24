@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import styled from 'styled-components'
+import GlobalStyles from './styles/GlobalStyles'
+
+import * as ROUTES from './constants/routes';
+import { withAuthentication } from './contexts';
+import Dashboard from "./pages/Dashboard";
+import SignUpPage from './pages/SignUpPage'
+import SignInPage from './pages/SignInPage'
+import AdminPage from './pages/Admin'
+import Navigation from './components/Navigation';
+
+const App = () => (
+  <>
+  <Router>
+    <div>
+      <Navigation />
+      <Route exact path={ROUTES.HOME} component={Dashboard} />
+      <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
+      <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+      <Route exact path={ROUTES.ADMIN} component={AdminPage} />
+      <Route exact path={ROUTES.ADMIN_DETAILS} component={AdminPage} />
     </div>
-  );
-}
+  </Router>
+  <GlobalStyles />
+  </>
+);
 
-export default App;
+export default withAuthentication(App);
